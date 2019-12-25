@@ -3,21 +3,22 @@ SORTDIR=$1
 WORKDIR=$2
 
 filesort() {
-for file in $SORTDIR/*
+files=$(find $SORTDIR -type f)
+for file in $files
 do
   MODYEAR=$(date -r $file +%Y)
   MODMONTH=$(date -r $file +%m)
   MODDAY=$(date -r $file +%d)
   DIRNAM="$MODYEAR-$MODMONTH-$MODDAY"
-  FILENAM=$(basename $file)
+  FILENAM=$(basename "$file")
   if [[ -d "$WORKDIR/$DIRNAM" ]]; then
     cp $file "$WORKDIR/$DIRNAM/$FILENAM"
-    echo "$file copied to $WORKDIR/$DIRNAM/$FILENAM"
+    echo $file copied to "$WORKDIR/$DIRNAM/$FILENAM"
   else
     mkdir "$WORKDIR/$DIRNAM"
     echo "$DIRNAM created"
     cp $file "$WORKDIR/$DIRNAM/$FILENAM"
-    echo "$file copied to $WORKDIR/$DIRNAM/$FILENAM"
+    echo $file copied to "$WORKDIR/$DIRNAM/$FILENAM"
   fi
 done
 }
